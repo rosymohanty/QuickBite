@@ -1,0 +1,33 @@
+const mongoose=require("mongoose");
+const restaurantSchema=new mongoose.Schema(
+  {
+    name:{
+      type:String,
+      required:true,
+    },
+    cuisine:{
+      type:String,
+    },
+    address:String,
+    location:{
+      type:{
+        type:String,
+        enum:["Point"],
+        default:"Point",
+      },
+      coordinates:{
+        type:[Number],
+        required:true,
+      },
+    },
+    rating:{
+      type:Number,
+      default:0,
+    },
+    openingHours:String,
+    image:String,
+  },
+  {timestamps:true}
+);
+restaurantSchema.index({location:"2dsphere"});
+module.exports=mongoose.model("Restaurant",restaurantSchema);
